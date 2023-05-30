@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.BespokemfrDao">
+    <select id="findList" parameterType="bespokemfr" resultType="bespokemfr" >
+        select 
+           a.id as "id",
+           a.mfrid as "mfr.id",
+           b.name as "mfr.name",
+           a.num
+        from bespokemfr a left join mfr b on a.mfrid = b.id
+        where a.bespokeid = #{bespoke.id}
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+      <select id="count" parameterType="bespokemfr" resultType="int" >
+        select 
+           count(*)
+        from bespokemfr a left join mfr b on a.mfrid = b.id
+        where a.bespokeid = #{bespoke.id}
+    </select>
+    
+    <insert id="add" parameterType="bespokemfr" >
+        insert into bespokemfr(bespokeid,id,num,mfrid) values (#{bespoke.id},#{id},#{num},#{mfr.id})
+    </insert>
+    
+    <update id="update" parameterType="bespokemfr">
+		update bespokemfr set num = #{num},mfrid = #{mfr.id}  where id = #{id}
+    </update>
+    
+    
+    
+    <delete id="delete" parameterType="bespokemfr">
+        delete from bespokemfr where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

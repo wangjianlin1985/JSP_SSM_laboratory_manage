@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="libiary"
+  id="myeclipse.1431912873333"
+  context-root="/libiary"
+  j2ee-spec="5.0"
+  archive="libiary.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

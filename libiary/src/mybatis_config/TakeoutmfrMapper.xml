@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.TakeoutmfrDao">
+    <select id="findList" parameterType="takeoutmfr" resultType="takeoutmfr" >
+        select 
+           a.id as "id",
+           a.mfrid as "mfr.id",
+           b.name as "mfr.name",
+           a.num
+        from takeoutmfr a left join mfr b on a.mfrid = b.id
+        where a.takeoutid = #{takeout.id}
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+      <select id="count" parameterType="takeoutmfr" resultType="int" >
+        select 
+           count(*)
+        from takeoutmfr a left join mfr b on a.mfrid = b.id
+        where a.takeoutid = #{takeout.id}
+    </select>
+    
+    <insert id="add" parameterType="takeoutmfr" >
+        insert into takeoutmfr(takeoutid,id,num,mfrid) values (#{takeout.id},#{id},#{num},#{mfr.id})
+    </insert>
+    
+    <update id="update" parameterType="takeoutmfr">
+		update takeoutmfr set num = #{num},mfrid = #{mfr.id}  where id = #{id}
+    </update>
+    
+    
+    
+    <delete id="delete" parameterType="takeoutmfr">
+        delete from takeoutmfr where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

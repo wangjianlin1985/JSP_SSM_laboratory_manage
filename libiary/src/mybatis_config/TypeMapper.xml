@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.TypeDao">
+    <select id="findList" parameterType="type" resultType="type" >
+        select 
+           a.id as "id",
+           a.name as "name"   
+        from type a
+        where 1 = 1
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="type" resultType="type"  >
+        select 
+           a.id as "id",
+           a.name as "name"
+        from type a
+        where a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="type" resultType="int" >
+        select 
+           count(*)
+        from type a
+    </select>
+    
+    <insert id="add" parameterType="type" >
+        insert into type(name,id) values (#{name},#{id})
+    </insert>
+    
+    <update id="update" parameterType="type">
+		update type set
+    	<trim suffixOverrides=",">
+			<if test="name!=null">name=#{name},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    
+    
+    <delete id="delete" parameterType="type">
+        delete from type where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

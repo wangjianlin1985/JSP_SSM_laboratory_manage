@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.RepairDao">
+    <select id="findList" parameterType="repair" resultType="repair" >
+        select 
+           a.id as "id",
+           a.mfrid as "mfr.id",
+           b.name as "mfr.name",
+           a.time,
+           a.remarks
+        from repair a left join mfr b on a.mfrid = b.id
+        where 1 = 1
+        <if test="mfr!=null and mfr.id!=null">
+            and a.mfrid = #{mfr.id}
+        </if>
+        order by a.time desc
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    
+     <select id="findOne" parameterType="repair" resultType="repair" >
+        select 
+           a.id as "id",
+           a.mfrid as "mfr.id",
+           b.name as "mfr.name",
+           a.time,
+           a.remarks
+        from repair a left join mfr b on a.mfrid = b.id
+        where a.id = #{id}
+        
+    </select>
+    
+    
+      <select id="count" parameterType="repair" resultType="int" >
+        select 
+           count(*)
+         from repair a left join mfr b on a.mfrid = b.id
+        where 1 = 1
+        <if test="mfr!=null and mfr.id!=null">
+            and a.mfrid = #{mfr.id}
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="repair" >
+        insert into repair(id,time,mfrid,remarks) values (#{id},#{time},#{mfr.id},#{remarks})
+    </insert>
+    
+    <update id="update" parameterType="repair">
+		update repair set remarks = #{remarks} where id = #{id}
+    </update>
+    
+    
+    
+    <delete id="delete" parameterType="repair">
+        delete from repair where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

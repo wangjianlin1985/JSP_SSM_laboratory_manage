@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+	</head>
+
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 215px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">报备详情</h1>
+		</header>
+		<div class="mui-content" >
+			
+					
+					
+				
+				<div class="mui-slider-group" >
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active" style="height:550px;">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll" style="align:center;text-align:center;">
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									报&nbsp;&nbsp;备&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;的：客运西站
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									报备开始时间：2018-04-01 15:00
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									报备消记时间：2018-04-01 16:00
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									报&nbsp;&nbsp;备&nbsp;&nbsp;事&nbsp;&nbsp;&nbsp;由：去XX地检查工作
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									实际消记时间：2018-04-01 17:00
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									消&nbsp;&nbsp;记&nbsp;&nbsp;地&nbsp;&nbsp;&nbsp;点：合肥市金寨路46号
+								</div>
+								<div style="margin-top:20px;width:80%;margin-left:10%;text-align:left;">
+									超&nbsp;&nbsp;时&nbsp;&nbsp;情&nbsp;&nbsp;&nbsp;况：超时1小时
+								</div> 
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					
+				</div>
+			</div>
+
+			
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">&nbsp;&nbsp;2018-03-31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签到&nbsp;&nbsp;08:00&nbsp;&nbsp;&nbsp;&nbsp;签退&nbsp;&nbsp;17:00</li><li class="mui-table-view-cell">&nbsp;&nbsp;2018-03-30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签到&nbsp;&nbsp;08:00&nbsp;&nbsp;&nbsp;&nbsp;签退&nbsp;&nbsp;17:00</li><li class="mui-table-view-cell">&nbsp;&nbsp;2018-03-29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签到&nbsp;&nbsp;08:00&nbsp;&nbsp;&nbsp;&nbsp;签退&nbsp;&nbsp;17:00</li><li class="mui-table-view-cell">&nbsp;&nbsp;2018-03-28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签到&nbsp;&nbsp;08:00&nbsp;&nbsp;&nbsp;&nbsp;签退&nbsp;&nbsp;17:00</li><li class="mui-table-view-cell">&nbsp;&nbsp;2018-03-27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签到&nbsp;&nbsp;08:00&nbsp;&nbsp;&nbsp;&nbsp;签退&nbsp;&nbsp;17:00</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} 
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
+
+	</body>
+
+</html>

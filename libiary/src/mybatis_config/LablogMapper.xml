@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.LablogDao">
+    <select id="findList" parameterType="lablog" resultType="lablog" >
+        select 
+           a.id as "id",
+           a.labid as "lab.id",
+           c.title as "lab.title",
+           a.remarks as "remarks",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.time
+        from lablog a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="lab!=null and lab.id!=null">
+            and a.labid = #{lab.id}
+        </if>  
+        order by a.labid desc
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="lablog" resultType="lablog"  >
+         select 
+           a.id as "id",
+           a.labid as "lab.id",
+           c.title as "lab.title",
+           a.remarks as "remarks",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.time
+        from lablog a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        where  a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="lablog" resultType="int" >
+        select 
+           count(*)
+        from lablog a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="lab!=null and lab.id!=null">
+            and a.labid = #{lab.id}
+        </if>  
+    </select>
+    
+    <insert id="add" parameterType="lablog" >
+        insert into lablog(labid,id,time,userid,remarks) values (#{lab.id},#{id},#{time},#{user.id},#{remarks})
+    </insert>
+    
+    <update id="update" parameterType="lablog">
+		update lablog set
+    	<trim suffixOverrides=",">
+			<if test="time!=null">time=#{time},</if>
+			<if test="lab!=null and lab.id!=null">labid=#{lab.id},</if>
+			<if test="remarks!=null">remarks=#{remarks},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    <delete id="delete" parameterType="lablog">
+        delete from lablog where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.MfrDao">
+    <select id="findList" parameterType="mfr" resultType="mfr" >
+        select 
+           a.id as "id",
+           a.code as "code",
+           a.name as "name",
+           a.num as "num",
+           a.typeid as "type.id",
+           b.name as "type.name",
+           a.librid as "libr.id",
+           c.name as "libr.name"
+        from mfr a left join type b on a.typeid = b.id
+        left join libr c on a.librid = c.id
+        where 1 = 1
+        <if test="type!=null and type.id !=null">
+            and a.typeid = #{type.id}
+        </if>
+        <if test="libr!=null and libr.id !=null">
+            and a.librid = #{libr.id}
+        </if>
+        <if test="keyword!=null and ''!=keyword">
+            and (a.name like '%' #{keyword} '%'  or a.code like '%' #{keyword} '%')
+        </if>
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="mfr" resultType="mfr"  >
+        select 
+           a.id as "id",
+           a.code as "code",
+           a.name as "name",
+           a.num as "num",
+           a.typeid as "type.id",
+           b.name as "type.name",
+           a.librid as "libr.id",
+           c.name as "libr.name"
+        from mfr a left join type b on a.typeid = b.id
+        left join libr c on a.librid = c.id
+        where a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="mfr" resultType="int" >
+         select 
+           count(*)
+        from mfr a left join type b on a.typeid = b.id
+        left join libr c on a.librid = c.id
+        where 1 = 1
+        <if test="type!=null and type.id !=null">
+            and a.typeid = #{type.id}
+        </if>
+        <if test="libr!=null and libr.id !=null">
+            and a.librid = #{libr.id}
+        </if>
+        <if test="keyword!=null and ''!=keyword">
+            and (a.name like '%' #{keyword} '%'  or a.code like '%' #{keyword} '%')
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="mfr" >
+        insert into mfr(name,code,id,typeid,librid,num,remarks) values (#{name},#{code},#{id},#{type.id},#{libr.id},0,#{remarks})
+    </insert>
+    
+    <update id="update" parameterType="mfr">
+		update mfr set
+    	<trim suffixOverrides=",">
+			<if test="name!=null">name=#{name},</if>
+			<if test="code!=null">code=#{code},</if>
+			<if test="remarks!=null">remarks=#{remarks},</if>
+			<if test="type!=null and type.id!=null">typeid=#{type.id},</if>
+			<if test="libr!=null and libr.id!=null">librid=#{libr.id},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    <update id="updateNum" parameterType="mfr">
+		update mfr set num = #{num} where id=#{id}        
+    </update>
+    
+    <delete id="delete" parameterType="mfr">
+        delete from mfr where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

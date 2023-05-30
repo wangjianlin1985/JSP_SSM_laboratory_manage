@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.LabDao">
+    <select id="findList" parameterType="lab" resultType="lab" >
+        select 
+           a.id as "id",
+           a.title as "title",
+           a.time,
+           a.content
+        from lab a
+        <if test="title!=null and ''!=title">
+            where a.title like '%' #{title} '%'
+        </if>
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="lab" resultType="lab"  >
+        select 
+           a.id as "id",
+           a.title as "title",
+           a.time,
+           a.content
+        from lab a where a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="lab" resultType="int" >
+        select 
+           count(*)
+        from lab a
+        <if test="title!=null and ''!=title">
+            where a.title like '%' #{title} '%'
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="lab" >
+        insert into lab(title,id,time,content) values (#{title},#{id},#{time},#{content})
+    </insert>
+    
+    <update id="update" parameterType="lab">
+		update lab set
+    	<trim suffixOverrides=",">
+			<if test="title!=null">title=#{title},</if>
+			<if test="time!=null">time=#{time},</if>
+			<if test="content!=null">content=#{content},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    
+    
+    <delete id="delete" parameterType="lab">
+        delete from lab where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.QuestionDao">
+    <select id="findList" parameterType="question" resultType="question" >
+        select 
+          a.id as "id",
+          a.title as "title",
+          a.asktime as "asktime",
+          a.askuserid as "askuser.id",
+          b.name as "askuser.name",
+          a.content as "content",
+          a.answeruserid as "answeruser.id",
+          c.name as "answeruser.name",
+          a.answertime as "answertime",
+          a.answer as "answer",
+          a.status as "status"
+        from question a 
+        left join user b on a.askuserid = b.id
+        left join user c on a.answeruserid = c.id
+        where 1 = 1
+        <if test="askuser!=null and askuser.id!=null">
+            and a.askuserid = #{askuser.id}
+        </if>
+        <if test="title!=null and ''!=title">
+            and a.title like '%' #{title} '%'
+        </if>
+        order by a.asktime desc
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="question" resultType="question"  >
+          select 
+          a.id as "id",
+          a.title as "title",
+          a.asktime as "asktime",
+          a.askuserid as "askuser.id",
+          b.name as "askuser.name",
+          a.content as "content",
+          a.answeruserid as "answeruser.id",
+          c.name as "answeruser.name",
+          a.answertime as "answertime",
+          a.answer as "answer",
+          a.status as "status"
+        from question a 
+        left join user b on a.askuserid = b.id
+        left join user c on a.answeruserid = c.id
+        where  a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="question" resultType="int" >
+        select 
+           count(*)
+        from question a 
+        left join user b on a.askuserid = b.id
+        left join user c on a.answeruserid = c.id
+        where 1 = 1
+        <if test="askuser!=null and askuser.id!=null">
+            and a.askuserid = #{askuser.id}
+        </if>
+        <if test="title!=null and ''!=title">
+            and a.title like '%' #{title} '%'
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="question" >
+        insert into question(id,title,asktime,askuserid,content) values (#{id},#{title},#{asktime},#{askuser.id},#{content})
+    </insert>
+    
+    <update id="update" parameterType="question">
+		update question set
+    	<trim suffixOverrides=",">
+			<if test="title!=null">title=#{title},</if>
+			<if test="content!=null">content=#{content},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    <update id="updateAnswer" parameterType="question">
+		update question set answertime = #{answertime},answer = #{answer} ,answeruserid = #{answeruser.id},status=1  where id=#{id}        
+    </update>
+    
+    <delete id="delete" parameterType="question">
+        delete from question where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

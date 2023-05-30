@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.TakeoutDao">
+    <select id="findList" parameterType="takeout" resultType="takeout" >
+        select 
+           a.id as "id",
+           a.title as "title",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.approvetime,
+           a.approveresult,
+           a.applytime,
+           a.jingbanren,
+           a.reason,
+           a.starttime,
+           a.returntime 
+        from takeout a left join user b on a.userid = b.id   
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="title!=null and ''!=title">
+            and a.title = #{lab.id}
+        </if>
+        <if test="approveresult!=null and ''!=approveresult">
+            and a.approveresult = #{approveresult}
+        </if>
+        order by a.applytime desc
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="takeout" resultType="takeout"  >
+          select 
+           a.id as "id",
+           a.title as "title",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.jingbanren,
+           a.reason,
+           a.approvetime,
+           a.approveresult,
+           a.applytime,
+           a.starttime,
+           a.returntime 
+        from takeout a left join user b on a.userid = b.id   
+        where  a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="takeout" resultType="int" >
+        select 
+           count(*)
+         from takeout a left join user b on a.userid = b.id   
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="title!=null and ''!=title">
+            and a.title = #{lab.id}
+        </if>
+        <if test="approveresult!=null and ''!=approveresult">
+            and a.approveresult = #{approveresult}
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="takeout" >
+        insert into takeout(jingbanren,reason,id,starttime,title,userid,applytime,returntime) values (#{jingbanren},#{reason},#{id},#{starttime},#{title},#{user.id},#{applytime},#{returntime})
+    </insert>
+    
+    <update id="update" parameterType="takeout">
+		update takeout set
+    	<trim suffixOverrides=",">
+			<if test="starttime!=null">starttime=#{starttime},</if>
+			<if test="returntime!=null">returntime=#{returntime},</if>
+			<if test="title!=null">title=#{title},</if>
+			<if test="jingbanren!=null">jingbanren=#{jingbanren},</if>
+			<if test="reason!=null">reason=#{reason},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    <update id="updateApprover" parameterType="takeout">
+		update takeout set approveresult = #{approveresult},approvetime = #{approvetime} where id=#{id}        
+    </update>
+    
+    <delete id="delete" parameterType="takeout">
+        delete from takeout where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

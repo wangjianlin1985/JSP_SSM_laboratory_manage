@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.BespokeDao">
+    <select id="findList" parameterType="bespoke" resultType="bespoke" >
+        select 
+           a.id as "id",
+           a.labid as "lab.id",
+           c.title as "lab.title",
+           a.remarks as "remarks",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.type as "type",
+           a.applytime,
+           a.approveresult,
+           a.approvetime,
+           a.usertime,
+           a.librid as "libr.id",
+           d.name as "libr.name"
+        from bespoke a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        left join libr d on a.librid = d.id
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="lab!=null and lab.id!=null">
+            and a.labid = #{lab.id}
+        </if>
+        <if test="libr!=null and libr.id!=null">
+            and a.librid = #{libr.id}
+        </if>  
+        <if test="keyword!=null and ''!=keyword">
+            and ( b.name like '%' #{keyword} '%'  or c.title like '%' #{keyword} '%' or d.name like '%' #{keyword} '%' )
+        </if>   
+        <if test="approveresult!=null and ''!=approveresult">
+            and a.approveresult = #{approveresult}
+        </if>
+        order by a.applytime desc
+        <if test="page!=null and rows!=null">
+            limit #{page},#{rows}
+        </if>
+        
+    </select>
+    
+    
+    <select id="findOne"  parameterType="bespoke" resultType="bespoke"  >
+         select 
+           a.id as "id",
+           a.labid as "lab.id",
+           c.title as "lab.title",
+           a.remarks as "remarks",
+           a.userid as "user.id",
+           b.name as "user.name",
+           a.type as "type",
+           a.applytime,
+           a.approveresult,
+           a.approvetime,
+           a.usertime,
+           a.librid as "libr.id",
+           d.name as "libr.name"
+        from bespoke a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        left join libr d on a.librid = d.id
+        where  a.id = #{id}
+    </select>
+    
+    
+    
+      <select id="count" parameterType="bespoke" resultType="int" >
+        select 
+           count(*)
+        from bespoke a left join user b on a.userid = b.id   
+        left join lab c on a.labid = c.id
+        left join libr d on a.librid = d.id
+        where 1 = 1
+        <if test="user!=null and user.id!=null">
+            and a.userid = #{user.id}
+        </if> 
+        <if test="lab!=null and lab.id!=null">
+            and a.labid = #{lab.id}
+        </if>
+        <if test="libr!=null and libr.id!=null">
+            and a.librid = #{libr.id}
+        </if>  
+        <if test="keyword!=null and ''!=keyword">
+            and ( b.name like '%' #{keyword} '%'  or c.title like '%' #{keyword} '%' or d.name like '%' #{keyword} '%' )
+        </if>   
+        <if test="approveresult!=null and ''!=approveresult">
+            and a.approveresult = #{approveresult}
+        </if>
+    </select>
+    
+    <insert id="add" parameterType="bespoke" >
+        insert into bespoke(librid,type,labid,id,applytime,usertime,userid,remarks) values (#{libr.id},#{type},#{lab.id},#{id},#{applytime},#{usertime},#{user.id},#{remarks})
+    </insert>
+    
+    <update id="update" parameterType="bespoke">
+		update bespoke set
+    	<trim suffixOverrides=",">
+			<if test="usertime!=null">usertime=#{usertime},</if>
+			<if test="title!=null">title=#{title},</if>
+			<if test="remarks!=null">remarks=#{remarks},</if>
+			<if test="type!=null">type=#{type},</if>
+			<if test="libr!=null and libr.id!=null">librid=#{libr.id},</if>
+			<if test="lab!=null and lab.id!=null">labid=#{lab.id},</if>
+		</trim>
+		<where>id=#{id}</where>        
+    </update>
+    
+    <update id="updateApprove" parameterType="bespoke">
+		update bespoke set approveresult = #{approveresult},approvetime = #{approvetime} where id=#{id}        
+    </update>
+    
+    <delete id="delete" parameterType="bespoke">
+        delete from bespoke where id = #{id} 
+    </delete>
+    
+    
+    
+</mapper>

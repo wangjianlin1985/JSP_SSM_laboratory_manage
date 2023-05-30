@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dingzhen.dao.info.StockDao">
+	
+	<select id="findList" parameterType="stock" resultType="stock">
+		select 
+			a.id as "id",
+			a.mfrid as "mfr.id",
+			b.name as "mfr.name",
+			a.thisnum,
+			a.totalnum,
+			a.type,
+			a.time,
+			a.name,
+			a.remarks
+		from stock a left join mfr b on a.mfrid = b.id	
+		where 1 = 1
+		<if test="mfr!=null and mfr.id !=null">
+		    and a.mfrid = #{mfr.id}
+		</if>
+		<if test="type!=null and ''!=type">
+		    and a.type = #{type}
+		</if>
+		
+		<if test="name != null and '' != name">  
+            <![CDATA[  
+              AND name like '%' #{name} '%'  
+            ]]>  
+        </if>
+        <if test="start!=null and ''!=start">  
+            <![CDATA[  
+              AND a.time >= #{start}
+            ]]>  
+        </if>
+        <if test="end!=null and ''!=end">  
+            <![CDATA[  
+              AND a.time <= #{end}
+            ]]>  
+        </if>
+        order by a.time desc
+		<if test="page != null and rows != null" >           
+              limit #{page}, #{rows} 
+        </if>
+	</select>
+
+
+	<select id="count" parameterType="stock" resultType="int">
+		select count(*) from stock a left join mfr b on a.mfrid = b.id	
+		where 1 = 1
+		<if test="mfr!=null and mfr.id !=null">
+		    and a.mfrid = #{mfr.id}
+		</if>
+		<if test="type!=null and ''!=type">
+		    and a.type = #{type}
+		</if>
+		
+		<if test="name != null and '' != name">  
+            <![CDATA[  
+              AND name like '%' #{name} '%'  
+            ]]>  
+        </if>
+        <if test="start!=null and ''!=start">  
+            <![CDATA[  
+              AND a.time >= #{start}
+            ]]>  
+        </if>
+        <if test="end!=null and ''!=end">  
+            <![CDATA[  
+              AND a.time <= #{end}
+            ]]>  
+        </if>
+	</select>
+	
+	
+	
+	
+	<insert id="add" parameterType="stock" >
+		insert into stock(id,name,thisnum,totalnum,type,remarks,mfrid,time) 
+		values (#{id},#{name},#{thisnum},#{totalnum},#{type},#{remarks},#{mfr.id},#{time})
+	</insert>
+	
+	
+	
+</mapper>

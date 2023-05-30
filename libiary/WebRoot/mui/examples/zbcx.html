@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+		
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+			
+			label {
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">值班查询</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label style="width:80%">值班领导&nbsp;&nbsp;&nbsp;&nbsp;曾经来</label>
+							
+					</div>
+					<div class="mui-input-row">
+						<label style="width:80%">副班领导&nbsp;&nbsp;&nbsp;&nbsp;张传胜</label>
+							
+					</div>
+					<div class="mui-input-row">
+						<label style="width:80%">值班司机&nbsp;&nbsp;&nbsp;&nbsp;刘春风</label>
+							
+					</div><div class="mui-input-row">
+						<label style="width:80%">国宝支队&nbsp;&nbsp;&nbsp;&nbsp;越晚秋</label>
+							
+					</div><div class="mui-input-row">
+						<label style="width:80%">内保支队&nbsp;&nbsp;&nbsp;&nbsp;徐祥</label>
+							
+					</div>
+					<div class="mui-input-row">
+						<label style="width:80%">治安支队&nbsp;&nbsp;&nbsp;&nbsp;司武胜&nbsp;&nbsp;吕明</label>
+							
+					</div>
+					<div class="mui-input-row">
+						<label style="width:80%">安检支队&nbsp;&nbsp;&nbsp;&nbsp;洪小兵</label>
+							
+					</div><div class="mui-input-row">
+						<label style="width:80%">消防支队&nbsp;&nbsp;&nbsp;&nbsp;张亮</label>
+							
+					</div><div class="mui-input-row" id="promptBtn">
+						<label style="width:80%">技侦大队&nbsp;&nbsp;&nbsp;&nbsp;吴明友</label>
+							
+					</div>
+				</div>
+				
+					
+				</form>
+				
+				
+			</div>
+		</div>
+		
+		
+		
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			
+			
+			
+		</script>
+	</body>
+
+</html>
